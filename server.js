@@ -20,6 +20,8 @@ const io = socket_io(server);
 const User = require("./public/js/enterMongo");
 
 const bodyParser = require("body-parser");
+const { assert } = require("console");
+const { Double, Db } = require("mongodb");
 
 app.use(
     bodyParser.urlencoded({
@@ -29,9 +31,23 @@ app.use(
 
 app.use(bodyParser.json());
 
+//Use the connection with Mongo
+let db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
+
+//Handle the signup button
 app.post("/signup", (req, res) => {
-    const user = new User(req.body);
-    user.save();
+    let users = mongoose.model("users", User);
+    const user = new users(req.body);
+    //Save the user if the email is unique
+    user.save((err) => {
+        if (err) {
+            console.log(
+                "That user already exists, please pick another email or log into your old account!"
+            );
+        }
+    });
+    // });
 });
 
 //Set static folder
