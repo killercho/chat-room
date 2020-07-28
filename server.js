@@ -1,3 +1,7 @@
+const url =
+    "mongodb+srv://admin:1234gei@cluster0.7xlwh.mongodb.net/Cluster0?retryWrites=true&w=majority";
+const mongoose = require("mongoose");
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 const path = require("path");
 const http = require("http");
 const express = require("express");
@@ -13,13 +17,28 @@ const {
 const app = express();
 const server = http.createServer(app);
 const io = socket_io(server);
+const User = require("./public/js/enterMongo");
+
+const bodyParser = require("body-parser");
+
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    })
+);
+
+app.use(bodyParser.json());
+
+app.post("/signup", (req, res) => {
+    const user = new User(req.body);
+    user.save();
+});
 
 //Set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
 //On client connection
 io.on("connection", (socket) => {
-
     socket.on("joinRoom", ({ username, room }) => {
         const user = userJoin(socket.id, username, room);
         socket.join(user.room);
