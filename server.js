@@ -1,7 +1,12 @@
 require("dotenv").config();
 const url = process.env.URL;
 const mongoose = require("mongoose");
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, wtimeout: 3000, w: 0});
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    wtimeout: 3000,
+    w: 0,
+});
 const path = require("path");
 const http = require("http");
 const express = require("express");
@@ -34,6 +39,19 @@ app.use(bodyParser.json());
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
 
+//Handle the login button
+app.post("/login", (req, res) => {
+    const emailUser = req.body.email;
+    const passwordUser = req.body.password;
+    let query = db
+        .collection("users")
+        .findOne({"email": emailUser, "password": passwordUser})
+        .then((doc) => {
+            if(doc == null) res.redirect("./signup.html");
+            else res.redirect("./chat.html");
+        });
+});
+
 //Handle the signup button
 app.post("/signup", (req, res) => {
     let users = mongoose.model("users", User);
@@ -41,11 +59,13 @@ app.post("/signup", (req, res) => {
     //Save the user if the email is unique
     user.save((err) => {
         if (err) {
-            console.log(err);
+            console.log(
+                "This user already exists. Please make another account or use your old one!"
+            );
+            // res.app.emit('user-exists', "This user already exists. Please make another account or use your old one!")
         }
     });
 });
-
 //Set static folder
 app.use(express.static(path.join(__dirname, "public")));
 

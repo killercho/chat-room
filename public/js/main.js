@@ -10,6 +10,7 @@ const { username, room } = Qs.parse(location.search, {
 
 const socket = io();
 
+
 //Join room
 socket.emit("joinRoom", { username, room });
 
@@ -60,6 +61,6 @@ function printRoomName(room) {
 //Users in DOM
 function printUsers(users) {
     userList.innerHTML = `
-    ${users.map((user) => `<li>${user.username}</li>`).join('')}
+    ${users.map((user) => `<li>${user.username}</li>`).join("")}
     `;
 }
