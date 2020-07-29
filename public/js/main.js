@@ -2,6 +2,15 @@ const chatForm = document.getElementById("chat-form");
 const chatMessages = document.querySelector(".chat-messages");
 const roomName = document.getElementById("room-name");
 const userList = document.getElementById("users");
+require("dotenv").config();
+const url = process.env.URL;
+const mongoose = require("mongoose");
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    wtimeout: 3000,
+    w: 0,
+});
 
 //Get username and room
 const { username, room } = Qs.parse(location.search, {
