@@ -41,7 +41,7 @@ app.post("/signup", (req, res) => {
     //Save the user if the email is unique
     user.save((err) => {
         if (err) {
-            console.log(err);
+            console.log("Email alredy used. Please try with a different one.");
         }
     });
 });

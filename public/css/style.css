@@ -1,9 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 :root {
-	--dark-color-a: #667aff;
+/*	--dark-color-a: #667aff;
 	--dark-color-b: #7386ff;
 	--light-color: #e6e9ff;
+*/
+	--dark-color-b: #17afbe;
+	--dark-color-a: #18c8d8;
+	--light-color: #d8eceb;
 	--success-color: #5cb85c;
 	--error-color: #d9534f;
 }
@@ -18,7 +22,7 @@ body {
 	font-family: 'Roboto', sans-serif;
 	font-size: 16px;
 	background: var(--light-color);
-	margin: 20px;
+	margin: 0;
 }
 
 ul {
@@ -41,26 +45,36 @@ a {
 /* Chat Page */
 
 .chat-container {
-	max-width: 1100px;
+	height: 100vh;
+	width: 100vw;
+	/*max-width: 1100px;
+	*/
 	background: #fff;
-	margin: 30px auto;
+	/*margin: 30px auto; */
 	overflow: hidden;
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+}
+
+.chat-container .btn{
+	border-radius: 5px;
 }
 
 .chat-header {
+	display: flex;
 	background: var(--dark-color-a);
 	color: #fff;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
 	padding: 15px;
-	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	flex-direction: row;
 }
 
 .chat-main {
 	display: grid;
 	grid-template-columns: 1fr 3fr;
+	flex-grow: 2;
 }
 
 .chat-sidebar {
@@ -128,7 +142,7 @@ a {
 
 /* Join Page */
 .join-container {
-	max-width: 500px;
+	max-width: 400px;
 	margin: 80px auto;
 	color: #fff;
 }
@@ -139,6 +153,11 @@ a {
 	background: var(--dark-color-a);
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+}
+
+.join-header i {
+	font-size: 120px;
+	padding-bottom: 5px;
 }
 
 .join-main {
@@ -152,6 +171,7 @@ a {
 
 .join-main .form-control {
 	margin-bottom: 20px;
+	border-radius: 5px;
 }
 
 .join-main label {
@@ -159,7 +179,7 @@ a {
 	margin-bottom: 5px;
 }
 
-.join-main input[type='text'] {
+.join-main input[type='text'], input[type='email'], input[type='password']{
 	font-size: 16px;
 	padding: 5px;
 	height: 40px;
@@ -173,9 +193,20 @@ a {
 	width: 100%;
 }
 
-.join-main .btn {
+.join-main button[type="submit"].btn{
 	margin-top: 20px;
+}
+
+.join-main .btn {
+	margin-top: 10px;
 	width: 100%;
+	border-radius: 5px;
+}
+
+.join-main a {
+	text-align: center;
+	display: block;
+	margin: 10px auto 0;
 }
 
 @media (max-width: 700px) {
