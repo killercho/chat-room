@@ -45,9 +45,9 @@ app.post("/login", (req, res) => {
     const passwordUser = req.body.password;
     let query = db
         .collection("users")
-        .findOne({"email": emailUser, "password": passwordUser})
+        .findOne({ email: emailUser, password: passwordUser })
         .then((doc) => {
-            if(doc == null) res.redirect("./signup.html");
+            if (doc == null) res.redirect("./signup.html");
             else res.redirect("./chat.html");
         });
 });
@@ -62,7 +62,7 @@ app.post("/signup", (req, res) => {
             console.log(
                 "This user already exists. Please make another account or use your old one!"
             );
-            // res.app.emit('user-exists', "This user already exists. Please make another account or use your old one!")
+            res.redirect("./chat.html");
         }
     });
 });
