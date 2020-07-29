@@ -1,7 +1,7 @@
 require("dotenv").config();
 const url = process.env.URL;
 const mongoose = require("mongoose");
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, wtimeout: 3000, w: 0});
 const path = require("path");
 const http = require("http");
 const express = require("express");
@@ -41,12 +41,9 @@ app.post("/signup", (req, res) => {
     //Save the user if the email is unique
     user.save((err) => {
         if (err) {
-            console.log(
-                "That user already exists, please pick another email or log into your old account!"
-            );
+            console.log(err);
         }
     });
-    // });
 });
 
 //Set static folder
