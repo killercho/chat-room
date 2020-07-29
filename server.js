@@ -1,5 +1,5 @@
-const url =
-    "mongodb+srv://admin:1234gei@cluster0.7xlwh.mongodb.net/Cluster0?retryWrites=true&w=majority";
+require("dotenv").config();
+const url = process.env.URL;
 const mongoose = require("mongoose");
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 const path = require("path");
@@ -30,7 +30,6 @@ app.use(
 );
 
 app.use(bodyParser.json());
-
 //Use the connection with Mongo
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error: "));
