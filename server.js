@@ -28,6 +28,8 @@ const bodyParser = require("body-parser");
 const { assert } = require("console");
 const { Double, Db } = require("mongodb");
 
+let room, username;
+
 app.use(
     bodyParser.urlencoded({
         extended: true,
@@ -43,13 +45,21 @@ db.on("error", console.error.bind(console, "MongoDB connection error: "));
 app.post("/login", (req, res) => {
     const emailUser = req.body.email;
     const passwordUser = req.body.password;
-    let query = db
+    let authQuery = db
         .collection("users")
         .findOne({ email: emailUser, password: passwordUser })
         .then((doc) => {
             if (doc == null) res.redirect("./signup.html");
             else res.redirect("./chat.html");
         });
+    let query = db
+        .collection("users")
+        .findOne({ email: emailUser })
+        .then((doc) => {
+            username = doc.username;
+        });
+
+    room = req.body.room;
 });
 
 //Handle the signup button
@@ -62,8 +72,8 @@ app.post("/signup", (req, res) => {
             console.log(
                 "This user already exists. Please make another account or use your old one!"
             );
-            res.redirect("./chat.html");
         }
+        res.redirect("./index.html");
     });
 });
 //Set static folder
@@ -71,7 +81,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //On client connection
 io.on("connection", (socket) => {
-    socket.on("joinRoom", ({ username, room }) => {
+    // socket.on("joinRoom", ({ username, room }) => {
         const user = userJoin(socket.id, username, room);
         socket.join(user.room);
 
@@ -92,7 +102,7 @@ io.on("connection", (socket) => {
             room: user.room,
             users: getRoomUsers(user.room),
         });
-    });
+    // });
 
     //Catch message
     socket.on("chatMessage", (msg) => {

@@ -1,5 +1,20 @@
 const users = [];
 
+require("dotenv").config();
+const url = process.env.URL;
+const mongoose = require("mongoose");
+mongoose.connect(url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    wtimeout: 3000,
+    w: 0,
+});
+
+let db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error: "));
+let query = db
+        .collection("users")
+
 //Join user to chat
 function userJoin(id, username, room) {
     const user = { id, username, room };
