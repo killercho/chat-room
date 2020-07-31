@@ -60,6 +60,7 @@ function printRoomName(room) {
 //Users in DOM
 function printUsers(users) {
     userList.innerHTML = `
-    ${users.map((user) => `<li>${user.username}</li>`).join('')}
+    ${users.map((user) => `
+    <li>${user.username}</li><button class="btn">+</button>`).join('')}
     `;
 }
